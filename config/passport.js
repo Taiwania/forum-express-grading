@@ -39,7 +39,10 @@ passport.deserializeUser((id, cb) => {
     { model: User, as: 'Followers' },
     { model: User, as: 'Followings' }]
   })
-    .then(user => cb(null, user.toJSON()))
+    .then(user => {
+      if (!user) return cb(null, false)
+      cb(null, user.toJSON())
+    })
     .catch(err => cb(err))
 })
 module.exports = passport
